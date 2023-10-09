@@ -1,0 +1,2 @@
+#!/bin/bash
+echo "ECS_CLUSTER=cluster-final" >> /etc/ecs/ecs.config

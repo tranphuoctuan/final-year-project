@@ -4,24 +4,6 @@ resource "aws_db_subnet_group" "subnet_gr" {
     subnet_ids = [aws_subnet.private_subnet[0].id, aws_subnet.private_subnet[1].id]
     
 }
-// create security group for rds
-resource "aws_security_group" "rds_sg" {
-  vpc_id = aws_vpc.vpc.id
-  name = "rds_sg"
-  ingress {
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-    
 
 // create RDS
 resource "aws_db_instance" "rds" {

@@ -71,8 +71,12 @@ resource "aws_lb_listener" "listen_wp_80" {
     protocol = "HTTP"
     port = 80
     default_action {
-        type = "forward"
-        target_group_arn = aws_lb_target_group.tg_wp.arn
+        type = "redirect"
+        redirect {
+             port        = "443"
+             protocol    = "HTTPS"
+             status_code = "HTTP_301"
+         }
     }
 }
 // create listener ALB 443: wordpress
@@ -107,7 +111,11 @@ resource "aws_lb_listener" "listen_wp_81" {
     protocol = "HTTP"
     port = 81
     default_action {
-        type = "forward"
-        target_group_arn = aws_lb_target_group.tg_php.arn
+        type = "redirect"
+        redirect {
+             port        = "444"
+             protocol    = "HTTPS"
+             status_code = "HTTP_301"
+         }
     }
 }

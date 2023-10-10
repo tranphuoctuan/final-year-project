@@ -4,6 +4,7 @@
 resource "aws_vpc" "vpc" {
     cidr_block = "10.0.0.0/16"
     enable_dns_hostnames = true
+    enable_dns_support = true
     tags = {
       "Name" = "VPC-WordPress"
     }  
@@ -17,12 +18,11 @@ resource "aws_internet_gateway" "igw" {
 }
 // create subnet (2 public, 2 private)
 locals {
-  private = ["10.0.1.0/24", "10.0.2.0/24"]
-  public =  ["10.0.3.0/24", "10.0.4.0/24"]
-  zone =    ["ap-southeast-1a", "ap-southeast-1c"]
-  name_public =    ["public_subnet_a", "public_subnet_c"]
+  private = ["10.0.10.0/24", "10.0.20.0/24"]
+  public =  ["10.0.30.0/24", "10.0.40.0/24"]
+  zone =    ["ap-southeast-1a", "ap-southeast-1b"]
+  name_public =    ["public_subnet_1", "public_subnet_c"]
   name_private =   ["private_subnet_a", "private_subnet_c"]
-
 }
 // public subnet
 resource "aws_subnet" "public_subnet" { 
@@ -63,40 +63,12 @@ resource "aws_route_table_association" "public_ass" {
     route_table_id = aws_route_table.rtb_public.id 
 }
 
-
-
-// create  ENI for Nat instance
-resource "aws_network_interface" "network_interface" {
-    subnet_id = aws_subnet.public_subnet[0].id
-    source_dest_check = false
-    
-    security_groups = [aws_security_group.sg_public.id]
-    tags = {
-      Name = "nat_instance_network_interface"
-    }
-  
-}
-// create Elastic IP for network_interface
-resource "aws_eip" "eip" {
-  network_border_group = "ap-southeast-1"
-  tags = {
-    Name = "eip_for_network_interface"
-    
-  }
-}
-// associate eip to network_interface
-resource "aws_eip_association" "ass_eip" {
-  network_interface_id = aws_network_interface.network_interface.id
-  allocation_id = aws_eip.eip.id
-}
-
-  
  // create ec2, nat_instance, bastion host
 resource "aws_instance" "ec2_pub" {
     # vpc_security_group_ids = [aws_security_group.sg_public.id]
     # iam_instance_profile = data.aws_iam_instance_profile.ecs_instance_profile.name
-     ami = "ami-0f98860b8bc09bd5c"
-  instance_type = "t3.nano"      
+  ami = var.ami_ec2_nat
+  instance_type = var.type_ec2_nat  
   tags = {
       Name = "Nat_instance_Bastion_host"
   }
@@ -127,8 +99,8 @@ resource "aws_route_table_association" "private_ass" {
 // create ec2_private
 resource "aws_instance" "ec2_pri" {
   vpc_security_group_ids = [aws_security_group.sg_ec2_pri.id]
-  ami = "ami-05ca6e8f0e96437e4"
-  instance_type = "t3.medium"
+  ami = var.ami_ec2_ecs
+  instance_type = var.type_ec2_ecs
 
   key_name = data.aws_key_pair.ssh_my_keypair.key_name
   iam_instance_profile = data.aws_iam_instance_profile.ecs_instance_profile.name

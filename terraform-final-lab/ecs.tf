@@ -3,10 +3,6 @@
 resource "aws_ecs_cluster" "cluster" {
     name = "cluster-final"
 }
-// create data iam_role_task_difinition
-data "aws_iam_role" "role_ecs" {
-    name = "ExecutionRole"
-}
 
 
 // create task_difinition_wordpress

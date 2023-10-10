@@ -18,3 +18,7 @@ data "aws_key_pair" "ssh_my_keypair" {
 data "aws_iam_instance_profile" "ecs_instance_profile" {
   name = "ecsInstanceRole"
 }
+// data resource iam_role_task_difinition
+data "aws_iam_role" "role_ecs" {
+    name = "ExecutionRole"
+}

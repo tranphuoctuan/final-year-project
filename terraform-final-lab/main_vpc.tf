@@ -18,10 +18,10 @@ resource "aws_internet_gateway" "igw" {
 }
 // create subnet (2 public, 2 private)
 locals {
-  private = ["10.0.10.0/24", "10.0.20.0/24"]
-  public =  ["10.0.30.0/24", "10.0.40.0/24"]
-  zone =    ["ap-southeast-1a", "ap-southeast-1b"]
-  name_public =    ["public_subnet_1", "public_subnet_c"]
+  private = ["10.0.1.0/24", "10.0.2.0/24"]
+  public =  ["10.0.3.0/24", "10.0.4.0/24"]
+  zone =    ["ap-southeast-1a", "ap-southeast-1c"]
+  name_public =    ["public_subnet_a", "public_subnet_c"]
   name_private =   ["private_subnet_a", "private_subnet_c"]
 }
 // public subnet

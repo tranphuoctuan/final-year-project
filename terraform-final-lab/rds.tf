@@ -8,13 +8,13 @@ resource "aws_db_subnet_group" "subnet_gr" {
 // create RDS
 resource "aws_db_instance" "rds" {
   allocated_storage = 20
-  db_name = "wordpress"
+  db_name = var.db_rds
   engine = "mysql"
   engine_version = "8.0.33"
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
-  username = "wordpress"
-  password = "wordpress"
-  instance_class = "db.t3.micro"
+  username = var.user_rds
+  password = var.pass_rds
+  instance_class = var.type_rds
   db_subnet_group_name = aws_db_subnet_group.subnet_gr.name
   identifier = "rds"
   skip_final_snapshot = true

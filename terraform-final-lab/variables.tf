@@ -26,4 +26,37 @@ variable "ami_ec2_ecs" {
 # variable "number_private_subnet" {   
 #     type = number
 # }
+variable "profile" {
+    type = string
+    description = "profile"
+  
+}
+variable "env" {
+    type = string
+    description = "environment "
+}
+variable "user_rds" {
+    type = string
+    description = "username for RDS"
+  
+}
+variable "pass_rds" {
+    type = string
+    description = "password for RDS"
+}
+variable "db_rds" {
+    type = string
+    description = "Database Name for RDS"
+  
+}
+variable "type_rds" {
+    type = string
+    description = "DB instance class"
+  
+}
+variable "name_acm" {
+    type = string
+    description = "domain_name for ACM"
+  
+}
 

@@ -17,5 +17,4 @@ data "aws_key_pair" "ssh_my_keypair" {
 // data resource  iam role gán cho ec2-ecs
 data "aws_iam_instance_profile" "ecs_instance_profile" {
   name = "ecsInstanceRole"
-  
 }

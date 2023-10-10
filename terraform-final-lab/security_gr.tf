@@ -9,7 +9,7 @@ resource "aws_security_group" "sg_public" {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    cidr_blocks = ["10.0.1.0/24", "10.0.2.0/24"]
+    cidr_blocks = [for subnet in aws_subnet.private_subnet: subnet.cidr_block]
   }
 
   ingress {
@@ -19,10 +19,16 @@ resource "aws_security_group" "sg_public" {
     prefix_list_ids = [data.aws_ec2_managed_prefix_list.my_list_ip.id]
   }
    ingress {
-    from_port   = 0
-    to_port     = 65535
+    from_port   = 80
+    to_port     = 81
     protocol    = "tcp"
-    cidr_blocks = ["10.0.1.0/24", "10.0.2.0/24"]
+    cidr_blocks = [for subnet in aws_subnet.private_subnet: subnet.cidr_block]
+  }
+   ingress {
+    from_port   = 443
+    to_port     = 444
+    protocol    = "tcp"
+    cidr_blocks = [for subnet in aws_subnet.private_subnet: subnet.cidr_block]
   }
   egress {
     from_port   = 0
@@ -43,36 +49,36 @@ resource "aws_security_group" "sg_ec2_pri" {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.sg_public.id]
   }
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     # cidr_blocks = [data.aws_ec2_managed_prefix_list.my_list_ip]
-    prefix_list_ids = [data.aws_ec2_managed_prefix_list.my_list_ip.id]
+    security_groups = [aws_security_group.sg_public.id]
   }
     ingress {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    # cidr_blocks = [data.aws_ec2_managed_prefix_list.my_list_ip]
-    prefix_list_ids = [data.aws_ec2_managed_prefix_list.my_list_ip.id]
+    security_groups = [aws_security_group.rds_sg.id]
+    # prefix_list_ids = [data.aws_ec2_managed_prefix_list.my_list_ip.id]
   }
      ingress {
     from_port       = 80
     to_port         = 81
     protocol        = "TCP"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.sg_alb.id]
   }
 
 
-#    ingress {
-#     from_port       = 443
-#     to_port         = 443
-#     protocol        = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+   ingress {
+    from_port       = 443
+    to_port         = 444
+    protocol        = "tcp"
+    security_groups = [aws_security_group.sg_alb.id]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -99,3 +105,31 @@ resource "aws_security_group" "rds_sg" {
   }
 }
   
+  // create security group for ALB
+resource "aws_security_group" "sg_alb" {
+  name = "SG_ALB"
+  description = "allows port 8080 8081 and SSL 443 to ALB"
+  vpc_id = aws_vpc.vpc.id
+  tags = {
+    Name = "SG_ALB"
+  }
+  ingress {
+    from_port   = 80
+    to_port     = 81
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+   ingress {
+    from_port   = 443
+    to_port     = 444
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+   egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+}

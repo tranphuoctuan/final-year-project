@@ -3,10 +3,6 @@
 resource "aws_ecs_cluster" "cluster" {
     name = "cluster-final"
 }
-// create data iam_role_task_difinition
-data "aws_iam_role" "role_ecs" {
-    name = "ExecutionRole"
-}
 
 
 // create task_difinition_wordpress
@@ -23,52 +19,8 @@ resource "aws_ecs_task_definition" "task_wp" {
       cpu_architecture = "X86_64"
     }
 
-    container_definitions = <<TASK_DEFINITION
-    [
-        {
-            "name": "wordpress",
-            "image": "public.ecr.aws/bitnami/wordpress:latest",
-            "cpu": 0,
-            "portMappings": [
-                {
-                    "name": "wordpress-8080-tcp",
-                    "containerPort": 8080,
-                    "hostPort": 80,
-                    "protocol": "tcp",
-                    "appProtocol": "http"
-                }
-            ],
-            "essential": true,
-            "environment": [
-                {
-                    "name": "WORDPRESS_DATABASE_PASSWORD",
-                    "value": "wordpress"
-                },
-                {
-                    "name": "WORDPRESS_DATABASE_USER",
-                    "value": "wordpress"
-                },
-                {
-                    "name": "WORDPRESS_DATABASE_HOST",
-                    "value": "${aws_db_instance.rds.address}"
-                },
-                {
-                    "name": "WORDPRESS_DATABASE_PORT_NUMBER",
-                    "value": "3306"
-                },
-                {
-                    "name": "WORDPRESS_DATABASE_NAME",
-                    "value": "wordpress"
-                }
-            
-            ]
-        }
-    ]
-    TASK_DEFINITION
-    
+    container_definitions = "${file("td_wp.json")}"
 }
-
-
 /// create task_definition_phpmyadmin
 // create task_difinition_wordpress
 resource "aws_ecs_task_definition" "task_phpmyadmin" {
@@ -84,40 +36,7 @@ resource "aws_ecs_task_definition" "task_phpmyadmin" {
         cpu_architecture = "X86_64"
     }
 
-    container_definitions = <<TASK_DEFINITION
-    [
-        {
-            "name": "phpmyadmin",
-            "image": "public.ecr.aws/bitnami/phpmyadmin:5.2.1",
-            "cpu": 0,
-            "portMappings": [
-                {
-                    "name": "phpmyadmin-8081-tcp",
-                    "containerPort": 8080,
-                    "hostPort": 81,
-                    "protocol": "tcp",
-                    "appProtocol": "http"
-                }
-            ],
-            "essential": true,
-            "environment": [
-               {
-                    "name": "DATABASE_PASSWORD",
-                    "value": "wordpress"
-                },
-                {
-                    "name": "DATABASE_USER",
-                    "value": "wordpress"
-                },
-                {
-                    "name": "DATABASE_HOST",
-                    "value": "${aws_db_instance.rds.address}"
-                }
-            ]
-        }
-        
-    ]
-    TASK_DEFINITION
+    container_definitions = "${file("td_php.json")}"
 
 }
 

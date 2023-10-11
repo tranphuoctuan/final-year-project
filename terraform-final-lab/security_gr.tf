@@ -73,12 +73,12 @@ resource "aws_security_group" "sg_ec2_pri" {
   }
 
 
-   ingress {
-    from_port       = 443
-    to_port         = 444
-    protocol        = "tcp"
-    security_groups = [aws_security_group.sg_alb.id]
-  }
+  #  ingress {
+  #   from_port       = 443
+  #   to_port         = 444
+  #   protocol        = "tcp"
+  #   security_groups = [aws_security_group.sg_alb.id]
+  # }
   egress {
     from_port   = 0
     to_port     = 0

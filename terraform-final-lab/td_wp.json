@@ -16,11 +16,11 @@
             "environment": [
                 {
                     "name": "WORDPRESS_DATABASE_PASSWORD",
-                    "value": "wordpress"
+                    "value": "${var.td_wp_db_pass}"
                 },
                 {
                     "name": "WORDPRESS_DATABASE_USER",
-                    "value": "wordpress"
+                    "value": "${var.td_wp_db_user}"
                 },
                 {
                     "name": "WORDPRESS_DATABASE_HOST",
@@ -32,7 +32,7 @@
                 },
                 {
                     "name": "WORDPRESS_DATABASE_NAME",
-                    "value": "wordpress"
+                    "value": "${var.td_wp_db_name}"
                 }
             
             ]

@@ -60,29 +60,29 @@ variable "name_acm" {
   
 }
 
-variable "td_wp_db_pass" {
-    type = string
-    description = "PASSWORD database for task difinition WORDPRESS match with MYSQL"
+# variable "td_wp_db_pass" {
+#     type = string
+#     description = "PASSWORD database for task difinition WORDPRESS match with MYSQL"
   
-}
-variable "td_wp_db_user" {
-    type = string
-    description = "USER database for task difinition WORDPRESS match with MYSQL"
+# }
+# variable "td_wp_db_user" {
+#     type = string
+#     description = "USER database for task difinition WORDPRESS match with MYSQL"
   
-}
-variable "td_wp_db_name" {
-    type = string
-    description = "Name database for task difinition WORDPRESS match with MYSQL"
+# }
+# variable "td_wp_db_name" {
+#     type = string
+#     description = "Name database for task difinition WORDPRESS match with MYSQL"
   
-}
-variable "td_php_db_pass" {
-    type = string
-    description = "PASSWORD database for task difinition PHPMYADMIN match with MYSQL"
+# }
+# variable "td_php_db_pass" {
+#     type = string
+#     description = "PASSWORD database for task difinition PHPMYADMIN match with MYSQL"
   
-}
-variable "td_php_db_user" {
-    type = string
-    description = "Name database for task difinition PHPMYADMIN match with MYSQL"
+# }
+# variable "td_php_db_user" {
+#     type = string
+#     description = "Name database for task difinition PHPMYADMIN match with MYSQL"
   
-}
+# }
 

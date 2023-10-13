@@ -1,4 +1,12 @@
-
+ //create cloudwatch logs group for servies task wordpress
+resource "aws_cloudwatch_log_group" "log_service_wp" {
+    name = "ecs/services-wordpress"
+  
+}
+resource "aws_cloudwatch_log_group" "log_service_php" {
+    name = "ecs/services-phpmyadmin"
+  
+}
 // create cluster
 resource "aws_ecs_cluster" "cluster" {
     name = "cluster-final"
@@ -35,6 +43,14 @@ resource "aws_ecs_task_definition" "task_wp" {
                 }
             ],
             "essential": true,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "${aws_cloudwatch_log_group.log_service_wp.name}",
+                    "awslogs-region": "ap-southeast-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
             "environment": [
                 {
                     "name": "WORDPRESS_DATABASE_PASSWORD",
@@ -95,19 +111,27 @@ resource "aws_ecs_task_definition" "task_phpmyadmin" {
             "appProtocol": "http"
         }
     ],  
-    "essential": true,
-    "environment": [
+            "essential": true,
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "${aws_cloudwatch_log_group.log_service_php.name}",
+                    "awslogs-region": "ap-southeast-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "environment": [
        {
-            "name": "DATABASE_PASSWORD",
-            "value": "${aws_db_instance.rds.password}"
-        },
+                  "name": "DATABASE_PASSWORD",
+                   "value": "${aws_db_instance.rds.password}"
+                  },
+                  {
+                  "name": "DATABASE_USER",
+                  "value": "${aws_db_instance.rds.username}"
+                 },
         {
-            "name": "DATABASE_USER",
-            "value": "${aws_db_instance.rds.username}"
-        },
-        {
-            "name": "DATABASE_HOST",
-            "value": "${aws_db_instance.rds.address}"
+                  "name": "DATABASE_HOST",
+                  "value": "${aws_db_instance.rds.address}"
         }
     ]
     }

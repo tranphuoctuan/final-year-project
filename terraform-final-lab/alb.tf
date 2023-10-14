@@ -38,6 +38,33 @@ resource "aws_lb" "alb" {
     subnets = [for subnet in aws_subnet.public_subnet :subnet.id]
     enable_deletion_protection = false
 }
+// create listener ALB 443: wordpress
+resource "aws_lb_listener" "listen_wp_443" {
+    load_balancer_arn = aws_lb.alb.arn
+    protocol = "HTTPS"
+    port = 443
+    default_action {
+        type = "forward"
+        target_group_arn = aws_lb_target_group.tg_wp.arn
+    }
+    ssl_policy = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+    certificate_arn = data.aws_acm_certificate.acm.arn
+
+}
+// create listener ALB 444: phpmyadmin
+resource "aws_lb_listener" "listen_wp_444" {
+    load_balancer_arn = aws_lb.alb.arn
+    protocol = "HTTPS"
+    port = 444
+    default_action {
+        type = "forward"
+        target_group_arn = aws_lb_target_group.tg_php.arn
+    }
+    ssl_policy = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+    certificate_arn = data.aws_acm_certificate.acm.arn
+
+}
+
 // create listener ALB 80: wordpress
 resource "aws_lb_listener" "listen_wp_80" {
     load_balancer_arn = aws_lb.alb.arn
@@ -66,29 +93,19 @@ resource "aws_lb_listener" "listen_wp_81" {
          }
     }
 }
-// create listener ALB 443: wordpress
-resource "aws_lb_listener" "listen_wp_443" {
-    load_balancer_arn = aws_lb.alb.arn
-    protocol = "HTTPS"
-    port = 443
-    default_action {
-        type = "forward"
-        target_group_arn = aws_lb_target_group.tg_wp.arn
-    }
-    ssl_policy = "ELBSecurityPolicy-TLS13-1-2-2021-06"
-    certificate_arn = aws_acm_certificate.acm.arn
 
-}
-// create listener ALB 444: phpmyadmin
-resource "aws_lb_listener" "listen_wp_444" {
-    load_balancer_arn = aws_lb.alb.arn
-    protocol = "HTTPS"
-    port = 444
-    default_action {
-        type = "forward"
-        target_group_arn = aws_lb_target_group.tg_php.arn
-    }
-    ssl_policy = "ELBSecurityPolicy-TLS13-1-2-2021-06"
-    certificate_arn = aws_acm_certificate.acm.arn
 
+// associate alb endpoit to route3_record
+resource "aws_route53_record" "record_53" {
+    name = var.record_53
+    zone_id = data.aws_route53_zone.hosted_zone.id
+    type = "A"
+    alias {
+        name = aws_lb.alb.dns_name
+        zone_id = aws_lb.alb.zone_id
+        evaluate_target_health = true   
+      
+    }
+
+  
 }

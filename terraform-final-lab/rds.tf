@@ -16,7 +16,7 @@ resource "aws_db_instance" "rds" {
   password = var.pass_rds
   instance_class = var.type_rds
   db_subnet_group_name = aws_db_subnet_group.subnet_gr.name
-  identifier = "rds"
+  identifier = var.name_rds
   skip_final_snapshot = true
   storage_encrypted = true
   publicly_accessible = false

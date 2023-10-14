@@ -57,12 +57,12 @@ resource "aws_security_group" "sg_ec2_pri" {
     protocol    = "tcp"
     # cidr_blocks = [data.aws_ec2_managed_prefix_list.my_list_ip]
     security_groups = [aws_security_group.sg_public.id]
-  }
-    ingress {
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = [aws_security_group.rds_sg.id]
+  # }
+  #   ingress {
+  #   from_port       = 3306
+  #   to_port         = 3306
+  #   protocol        = "tcp"
+  #   security_groups = [aws_security_group.rds_sg.id]
     # prefix_list_ids = [data.aws_ec2_managed_prefix_list.my_list_ip.id]
   }
      ingress {
@@ -95,7 +95,7 @@ resource "aws_security_group" "rds_sg" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.sg_ec2_pri.id]
   }
   egress {
     from_port   = 0

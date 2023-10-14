@@ -13,7 +13,7 @@ resource "aws_network_interface" "network_interface" {
 resource "aws_eip" "eip" {
   network_border_group = "ap-southeast-1"
   tags = {
-    Name = "eip_for_network_interface"
+    Name = var.eip
     
   }
 }

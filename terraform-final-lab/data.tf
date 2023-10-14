@@ -22,3 +22,14 @@ data "aws_iam_instance_profile" "ecs_instance_profile" {
 data "aws_iam_role" "role_ecs" {
     name = "ExecutionRole"
 }
+// data resource ACM
+data "aws_acm_certificate" "acm" {
+    domain = "final-lab.tuantranlee.online"
+    statuses = ["ISSUED"]
+}
+// data resource route53_hosted_zone
+data "aws_route53_zone" "hosted_zone" {
+   name = "tuantranlee.online"
+   private_zone = false
+   
+}

@@ -11,7 +11,15 @@ resource "aws_cloudwatch_log_group" "log_service_php" {
 resource "aws_ecs_cluster" "cluster" {
     name = "cluster-final"
 }
-
+ //create cloudwatch logs group for servies task wordpress
+resource "aws_cloudwatch_log_group" "log_service_wp" {
+    name = "ecs/services-wordpress"
+  
+}
+resource "aws_cloudwatch_log_group" "log_service_php" {
+    name = "ecs/services-phpmyadmin"
+  
+}
 
 // create task_difinition_wordpress
 resource "aws_ecs_task_definition" "task_wp" {

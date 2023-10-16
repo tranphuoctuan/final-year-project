@@ -2,7 +2,6 @@
 resource "aws_db_subnet_group" "subnet_gr" {
   name       = "db_bg_final"
   subnet_ids = [aws_subnet.private_subnet[0].id, aws_subnet.private_subnet[1].id]
-
 }
 
 // create RDS

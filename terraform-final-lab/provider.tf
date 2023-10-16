@@ -1,4 +1,3 @@
-
 //create resource
 terraform {
   required_providers {
@@ -7,12 +6,11 @@ terraform {
       version = "~> 4.16"
     }
   }
-  backend "s3" {}
 
+  backend "s3" {}
   required_version = ">= 1.2.0"
 }
 
 provider "aws" {
-
   region = var.region
 }

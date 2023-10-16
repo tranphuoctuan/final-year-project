@@ -2,9 +2,7 @@
 resource "aws_security_group" "sg_public" {
   name   = "sg_public_subnet"
   vpc_id = aws_vpc.vpc.id
-  tags = {
-    Name = "sg_public_subnet"
-  }
+
   ingress {
     from_port   = -1
     to_port     = -1
@@ -18,23 +16,30 @@ resource "aws_security_group" "sg_public" {
     protocol        = "tcp"
     prefix_list_ids = [data.aws_ec2_managed_prefix_list.my_list_ip.id]
   }
+
   ingress {
     from_port   = 80
     to_port     = 81
     protocol    = "tcp"
     cidr_blocks = [for subnet in aws_subnet.private_subnet : subnet.cidr_block]
   }
+
   ingress {
     from_port   = 443
     to_port     = 444
     protocol    = "tcp"
     cidr_blocks = [for subnet in aws_subnet.private_subnet : subnet.cidr_block]
   }
+
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = -1
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "sg_public_subnet"
   }
 }
 //create security group for ec2_private
@@ -45,12 +50,14 @@ resource "aws_security_group" "sg_ec2_pri" {
   tags = {
     Name = "SG_Private_subnet"
   }
+
   ingress {
     from_port       = -1
     to_port         = -1
     protocol        = "icmp"
     security_groups = [aws_security_group.sg_public.id]
   }
+
   ingress {
     from_port = 22
     to_port   = 22
@@ -65,6 +72,7 @@ resource "aws_security_group" "sg_ec2_pri" {
     #   security_groups = [aws_security_group.rds_sg.id]
     # prefix_list_ids = [data.aws_ec2_managed_prefix_list.my_list_ip.id]
   }
+
   ingress {
     from_port       = 80
     to_port         = 81

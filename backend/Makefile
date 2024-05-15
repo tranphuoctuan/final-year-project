@@ -24,6 +24,9 @@ plan:
 apply:
 	terraform apply
 
+destroy:
+	terraform destroy
+
 # Private
 .PHONY: _config
 

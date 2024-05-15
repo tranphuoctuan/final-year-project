@@ -31,7 +31,7 @@ data "aws_iam_role" "role_ecs" {
 
 // data resource ACM
 data "aws_acm_certificate" "acm" {
-  domain   = "final-lab.tuantranlee.online"
+  domain   = "blog.tuantranlee.online"
   statuses = ["ISSUED"]
 }
 

@@ -13,6 +13,7 @@ resource "aws_cloudwatch_log_group" "log_service_php" {
 
 }
 
+
 // create task_difinition_wordpress
 resource "aws_ecs_task_definition" "task_wp" {
   family                   = "task_wp"
@@ -76,8 +77,6 @@ resource "aws_ecs_task_definition" "task_wp" {
             ]
         }
     ]
-
-
     TASK_DEFINITION
 }
 

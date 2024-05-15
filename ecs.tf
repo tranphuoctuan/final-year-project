@@ -80,7 +80,6 @@ resource "aws_ecs_task_definition" "task_wp" {
     TASK_DEFINITION
 }
 
-
 /// create task_definition_phpmyadmin
 // create task_difinition_wordpress
 resource "aws_ecs_task_definition" "task_phpmyadmin" {
@@ -135,8 +134,6 @@ resource "aws_ecs_task_definition" "task_phpmyadmin" {
     ]
     }
 ]
-
-    
     TASK_DEFINITION
 }
 

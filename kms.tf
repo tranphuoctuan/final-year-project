@@ -7,8 +7,6 @@ resource "aws_kms_key" "ssm" {
   key_usage               = "ENCRYPT_DECRYPT"
   deletion_window_in_days = "7"
   description             = "KMS key for encrypt ssm parameters"
-
-
 }
 
 resource "aws_kms_alias" "ssm" {

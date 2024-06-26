@@ -50,7 +50,7 @@ EOF
 }
 // Create alarm for high-cpu-ec2-nat-bastion
 resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_nat" {
-  alarm_name          = "/final-lab/ec2-nat/high-cpu"
+  alarm_name          = "/blog-wordpress/ec2-nat/high-cpu"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
   metric_name         = "CPUUtilization"
@@ -69,7 +69,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_nat" {
 // Create alarm for high-cpu-ec2-ecs
 
 resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_ecs" {
-  alarm_name          = "/final-lab/ec2-ecs/high-cpu"
+  alarm_name          = "/blog-wordpress/ec2-ecs/high-cpu"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
   metric_name         = "CPUUtilization"
@@ -87,7 +87,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_ecs" {
 
 // Create alarm for high-disk-ec2-ecs
 resource "aws_cloudwatch_metric_alarm" "high_mem_ec2_ecs" {
-  alarm_name          = "/final-lab/ec2-ecs/high-mem"
+  alarm_name          = "/blog-wordpress/ec2-ecs/high-mem"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
   metric_name         = "disk_used_percent"

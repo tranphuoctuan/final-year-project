@@ -153,7 +153,6 @@ resource "aws_ecs_service" "ser_php" {
   launch_type     = "EC2"
   task_definition = aws_ecs_task_definition.task_phpmyadmin.arn
   desired_count   = 1
-
 }
 
 

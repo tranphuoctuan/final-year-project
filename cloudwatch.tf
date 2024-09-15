@@ -67,7 +67,6 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_nat" {
 }
 
 // Create alarm for high-cpu-ec2-ecs
-
 resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_ecs" {
   alarm_name          = "/blog-wordpress/ec2-ecs/high-cpu"
   comparison_operator = "GreaterThanOrEqualToThreshold"

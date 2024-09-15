@@ -160,3 +160,11 @@ variable "name_pub" {
   description = "Name for subnet public"
 
 }
+variable "image_phpmyadmin" {
+  type        = string
+  description = "image phpmyadmin"
+}
+variable "image_wordpress" {
+  type        = string
+  description = "image wordpress"
+}

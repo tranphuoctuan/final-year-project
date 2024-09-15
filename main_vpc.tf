@@ -11,7 +11,7 @@ resource "aws_vpc" "vpc" {
 
 // create IGW
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.vpc.id
+  vpc_id = aws_vpc.vpc.id  
 
   tags = {
     Name = var.igw
@@ -27,7 +27,7 @@ resource "aws_subnet" "public_subnet" {
   availability_zone       = element(var.zone_pub, count.index)
 
   tags = {
-    Name = "${var.name_pub[count.index]}-final_lab"
+    Name = "${var.name_pub[count.index]}-final_year_project"
   }
 }
 
@@ -38,7 +38,7 @@ resource "aws_subnet" "private_subnet" {
   cidr_block        = var.sub_pri_cidr[count.index]
   availability_zone = element(var.zone_pri, count.index)
   tags = {
-    Name = "${var.name_pri[count.index]}-final_lab"
+    Name = "${var.name_pri[count.index]}-final_year_project"
   }
 }
 
@@ -52,7 +52,7 @@ resource "aws_route_table" "rtb_public" {
   }
 
   tags = {
-    Name = "Rtb_public_subnet_final_lab"
+    Name = "rtb_public_subnet_final_year_project"
   }
 }
 
@@ -96,7 +96,7 @@ resource "aws_route_table" "rtb_private" {
   }
 
   tags = {
-    Name = "Rtb_private_subnet_final_lab"
+    Name = "Rtb_private_subnet_final_year_project"
   }
 }
 

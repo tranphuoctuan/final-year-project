@@ -31,13 +31,13 @@ data "aws_iam_role" "role_ecs" {
 
 // data resource ACM
 data "aws_acm_certificate" "acm" {
-  domain   = "blog.tuantranlee.online"
+  domain   = "blog.tuantranlee.shop"
   statuses = ["ISSUED"]
 }
 
 // data resource route53_hosted_zone
 data "aws_route53_zone" "hosted_zone" {
-  name         = "tuantranlee.online"
+  name         = "tuantranlee.shop"
   private_zone = false
 
 }

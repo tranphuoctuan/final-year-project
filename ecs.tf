@@ -32,7 +32,7 @@ resource "aws_ecs_task_definition" "task_wp" {
         [
         {
             "name": "wordpress",
-            "image": "public.ecr.aws/bitnami/wordpress:latest",
+            "image": "${var.image_wordpress}",
             "cpu": 0,
             "portMappings": [
                 {
@@ -98,7 +98,7 @@ resource "aws_ecs_task_definition" "task_phpmyadmin" {
         [
         {
     "name": "phpmyadmin",
-    "image": "public.ecr.aws/bitnami/phpmyadmin:5.2.1",
+    "image": "${var.image_phpmyadmin}",
     "cpu": 0,
     "portMappings": [
         {
@@ -120,18 +120,18 @@ resource "aws_ecs_task_definition" "task_phpmyadmin" {
             },
             "environment": [
        {
-                  "name": "DATABASE_PASSWORD",
-                   "value": "${aws_db_instance.rds.password}"
-                  },
-                  {
-                  "name": "DATABASE_USER",
-                  "value": "${aws_db_instance.rds.username}"
-                 },
+              "name": "DATABASE_PASSWORD",
+                "value": "${aws_db_instance.rds.password}"
+              },
+              {
+              "name": "DATABASE_USER",
+              "value": "${aws_db_instance.rds.username}"
+              },
         {
-                  "name": "DATABASE_HOST",
-                  "value": "${aws_db_instance.rds.address}"
+              "name": "DATABASE_HOST",
+              "value": "${aws_db_instance.rds.address}"
         }
-    ]
+      ]
     }
 ]
     TASK_DEFINITION

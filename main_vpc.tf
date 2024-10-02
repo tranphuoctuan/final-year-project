@@ -27,7 +27,7 @@ resource "aws_subnet" "public_subnet" {
   availability_zone       = element(var.zone_pub, count.index)
 
   tags = {
-    Name = "${var.name_pub[count.index]}-final_year_project"
+    Name = "${var.name_pub[count.index]}-final-year-project"
   }
 }
 
@@ -38,7 +38,7 @@ resource "aws_subnet" "private_subnet" {
   cidr_block        = var.sub_pri_cidr[count.index]
   availability_zone = element(var.zone_pri, count.index)
   tags = {
-    Name = "${var.name_pri[count.index]}-final_year_project"
+    Name = "${var.name_pri[count.index]}-final-year-project"
   }
 }
 
@@ -52,7 +52,7 @@ resource "aws_route_table" "rtb_public" {
   }
 
   tags = {
-    Name = "rtb_public_subnet_final_year_project"
+    Name = "rtb_public_subnet_final_intern"
   }
 }
 
@@ -96,7 +96,7 @@ resource "aws_route_table" "rtb_private" {
   }
 
   tags = {
-    Name = "Rtb_private_subnet_final_year_project"
+    Name = "Rtb-private-subnet-final-year-project"
   }
 }
 

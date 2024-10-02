@@ -60,10 +60,10 @@ resource "aws_dynamodb_table" "tfstate" {
 resource "local_file" "config" {
   filename        = "../config/backend-${var.environment}.tfvars"
   content         = <<EOT
-region = "${var.region}"
-bucket = "${aws_s3_bucket.tfstate.id}"
-key = "terraform.tfstate"
-dynamodb_table = "${aws_dynamodb_table.tfstate.name}"
+    region = "${var.region}"
+    bucket = "${aws_s3_bucket.tfstate.id}"
+    key = "terraform.tfstate"
+    dynamodb_table = "${aws_dynamodb_table.tfstate.name}"
   EOT
   file_permission = "0644"
 }

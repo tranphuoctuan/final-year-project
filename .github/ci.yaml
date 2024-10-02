@@ -1,0 +1,10 @@
+## Ci check infra terraform
+
+name: ci-infra
+on:
+  pull_request:
+    paths:
+      - .
+      -
+      -
+      

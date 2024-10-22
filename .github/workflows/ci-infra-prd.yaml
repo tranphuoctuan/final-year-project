@@ -4,13 +4,14 @@ on:
   pull_request:
     branches:
       - main
+      - release/**
     paths:
-      - .github/workflows/ci-infra-dev.yaml
+      - .github/workflows/ci-infra-prd.yaml
       - docker/**
       - config/**
       - template/**
       - backend/**
-      - *./tf
+      - *.tf 
 
 permissions:
   id-token: write
@@ -18,13 +19,13 @@ permissions:
 
 env:
   SERVICE: terraform-final-year
-  ENVIRONMENT: dev
+  ENVIRONMENT: prd
   REGION: ap-southeast-1
 
 jobs:
   ci-infra-dev:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: prd
 
     steps:
       - name: Checkout
@@ -33,7 +34,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.DEV_DEPLOY_ROLE }}
+          role-to-assume: ${{ secrets.PRD_DEPLOY_ROLE }}
           aws-region: ${{ env.REGION }}
 
       - name: check assume role

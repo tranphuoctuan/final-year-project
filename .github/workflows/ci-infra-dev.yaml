@@ -40,13 +40,9 @@ jobs:
         run: aws sts get-caller-identity
 
       - name: Run terraform init for backend
-        run: cd backend && make init
-
-      - name: Run terraform plan for infra
-        run: cd backend && make plan
-
-      - name: Run terraform init for infra
-        run: make init
+        run: |
+          bash generate-config-file-dev.sh
+          make init
 
       - name: Run terraform plan for infra
         run: make plan

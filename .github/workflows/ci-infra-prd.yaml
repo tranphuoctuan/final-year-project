@@ -1,4 +1,4 @@
-name: ci-infra-dev
+name: ci-infra-prd
 
 on:
   pull_request:

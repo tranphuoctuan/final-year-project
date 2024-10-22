@@ -1,0 +1,52 @@
+name: ci-infra-dev
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/ci-infra-dev.yaml
+      - docker/**
+      - config/**
+      - template/**
+      - backend/**
+      - ../**
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  SERVICE: terraform-final-year
+  ENVIRONMENT: dev
+  REGION: ap-southeast-1
+
+jobs:
+  ci-infra-dev:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.DEV_DEPLOY_ROLE }}
+          aws-region: ${{ env.REGION }}
+
+      - name: check assume role
+        run: aws sts get-caller-identity
+
+      - name: Run terraform init for backend
+        run: cd backend && make init
+
+      - name: Run terraform plan for infra
+        run: cd backend && make plan
+
+      - name: Run terraform init for infra
+        run: make init
+
+      - name: Run terraform plan for infra
+        run: make plan

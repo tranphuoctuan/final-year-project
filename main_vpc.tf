@@ -52,7 +52,7 @@ resource "aws_route_table" "rtb_public" {
   }
 
   tags = {
-    Name = "rtb_public_subnet_final_intern"
+    Name = "rtb-public-subnet-final-year-project"
   }
 }
 

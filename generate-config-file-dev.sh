@@ -13,9 +13,9 @@ echo 'type_ec2_nat = "t3.nano"' >> ../config/terraform-prod.tfvars
 echo 'type_ec2_ecs = "t3.medium"' >> ../config/terraform-prod.tfvars
 
 # Variables secret for RDS
-echo "user_rds = \"${{ secrets.DEV_RDS_USER }}\"" >> ../config/terraform-prod.tfvars
-echo "pass_rds = \"${{ SECRETS.DEV_RDS_PASS }}\"" >> ../config/terraform-prod.tfvars
-echo "db_rds = \"${{ SECRETS.DEV_RDS_TABLE }}\"" >> ../config/terraform-prod.tfvars
+echo "user_rds = ${{ secrets.DEV_RDS_USER }}" >> ../config/terraform-prod.tfvars
+echo "pass_rds = ${{ SECRETS.DEV_RDS_PASS }}" >> ../config/terraform-prod.tfvars
+echo "db_rds = ${{ SECRETS.DEV_RDS_TABLE }}" >> ../config/terraform-prod.tfvars
 echo 'type_rds = "db.t3.micro"' >> ../config/terraform-prod.tfvars
 echo 'name_rds = "rds-final-intern"' >> ../config/terraform-prod.tfvars
 

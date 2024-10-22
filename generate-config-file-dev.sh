@@ -2,6 +2,10 @@
 
 # Create terraform-prod.tfvars file
 
+mkdir -p ../config  
+touch ../config/terraform-prod.tfvars 
+
+
 echo 'profile = final-project-year"' >> config/terraform-prod.tfvars
 echo 'environment = "prod"' >> config/terraform-prod.tfvars
 echo 'region = "ap-southeast-1"' >> config/terraform-prod.tfvars

@@ -42,7 +42,10 @@ jobs:
       - name: Run terraform init for backend
         run: |
           bash generate-config-file-dev.sh
-          make init 
+          echo "user_rds = ${{ secrets.DEV_RDS_USER }}" >> ../config/terraform-prod.tfvars
+          echo "pass_rds = ${{ secrets.DEV_RDS_PASS }}" >> ../config/terraform-prod.tfvars
+          echo "db_rds = ${{ secrets.DEV_RDS_TABLE }}" >> ../config/terraform-prod.tfvars
+          make init
 
       - name: Run terraform plan for infra
         run: make plan

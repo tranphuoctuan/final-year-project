@@ -1,11 +1,11 @@
-name: ci-infra-prd
+name: deploy-infra-dev
 
 on:
   push:
     branches:
-      - realease/**
+      - main
     paths:
-      - .github/workflows/ci-infra-prd.yaml
+      - .github/workflows/ci-infra-dev.yaml
       - docker/**
       - config/**
       - template/**
@@ -18,13 +18,13 @@ permissions:
 
 env:
   SERVICE: terraform-final-year
-  ENVIRONMENT: prd
+  ENVIRONMENT: dev
   REGION: ap-southeast-1
 
 jobs:
   ci-infra-dev:
     runs-on: ubuntu-latest
-    environment: prd
+    environment: dev
 
     steps:
       - name: Checkout
@@ -33,7 +33,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.PRD_DEPLOY_ROLE }}
+          role-to-assume: ${{ secrets.DEV_DEPLOY_ROLE }}
           aws-region: ${{ env.REGION }}
 
       - name: check assume role
@@ -44,10 +44,9 @@ jobs:
           echo "Envinronment for Infra and BE "
           echo ....
           bash generate-config-file-dev.sh
-          echo 'user_rds = ${{ secrets.PRD_RDS_USER }}' >> terraform.tfvars
-          echo 'pass_rds = ${{ secrets.PRD_RDS_PASS }}' >> terraform.tfvars
-          echo 'db_rds = ${{ secrets.PRD_RDS_TABLE }}'>> terraform.tfvars
+          echo 'user_rds = ${{ secrets.DEV_RDS_USER }}' >> terraform.tfvars
+          echo 'pass_rds = ${{ secrets.DEV_RDS_PASS }}' >> terraform.tfvars
+          echo 'db_rds = ${{ secrets.DEV_RDS_TABLE }}'>> terraform.tfvars
           terraform init -backend-config=backend.tfvars
-
       - name: Run terraform plan for Infra
-        run:  terraform plan
+        run:  make apply

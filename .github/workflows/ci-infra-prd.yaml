@@ -3,8 +3,7 @@ name: ci-infra-prd
 on:
   pull_request:
     branches:
-      - main
-      - release/**
+      - realease/**
     paths:
       - .github/workflows/ci-infra-prd.yaml
       - docker/**
@@ -23,7 +22,7 @@ env:
   REGION: ap-southeast-1
 
 jobs:
-  ci-infra-prd:
+  ci-infra-dev:
     runs-on: ubuntu-latest
     environment: prd
 
@@ -39,13 +38,16 @@ jobs:
 
       - name: check assume role
         run: aws sts get-caller-identity
-  
-      - name: Run terraform init for backend
+
+      - name: Run terraform init for Infra
         run: |
+          echo "Envinronment for Infra and BE "
+          echo ....
           bash generate-config-file-dev.sh
-          make plan 
-  
-      - name: Run terraform plan for infra
-        run: make plan
-      - name: Run terraform plan for infra
-        run: make plan
+          echo 'user_rds = ${{ secrets.PRD_RDS_USER }}' >> terraform.tfvars
+          echo 'pass_rds = ${{ secrets.PRD_RDS_PASS }}' >> terraform.tfvars
+          echo 'db_rds = ${{ secrets.PRD_RDS_TABLE }}'>> terraform.tfvars
+          terraform init -backend-config=backend.tfvars
+          
+      - name: Run terraform plan for Infra
+        run:  terraform plan

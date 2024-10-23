@@ -43,7 +43,7 @@ jobs:
       - name: Run terraform init for backend
         run: |
           bash generate-config-file-dev.sh
-          make init 
+          make plan 
   
       - name: Run terraform plan for infra
         run: make plan

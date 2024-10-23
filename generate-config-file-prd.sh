@@ -12,7 +12,7 @@ echo 'dynamodb_table = "final-project-year-prod-tfstate"' >> backend.tfvars
 
 ## config file environment for Infra init resource
 echo 'profile = "final-project-year"' >> terraform.tfvars
-echo 'environment = "dev"' >> terraform.tfvars
+echo 'environment = "prod"' >> terraform.tfvars
 echo 'region = "ap-southeast-1"' >> terraform.tfvars
 echo 'type_ec2_nat = "t3.nano"' >> terraform.tfvars
 echo 'type_ec2_ecs = "t3.medium"' >> terraform.tfvars

@@ -43,7 +43,7 @@ jobs:
         run: |
           echo "Envinronment for Infra and BE "
           echo ....
-          bash generate-config-file-dev.sh
+          bash generate-config-file-prd.sh
           echo 'user_rds = ${{ secrets.PRD_RDS_USER }}' >> terraform.tfvars
           echo 'pass_rds = ${{ secrets.PRD_RDS_PASS }}' >> terraform.tfvars
           echo 'db_rds = ${{ secrets.PRD_RDS_TABLE }}'>> terraform.tfvars

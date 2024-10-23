@@ -41,6 +41,16 @@ jobs:
 
       - name: Run terraform init for Infra
         run: |
+
+          echo "Environment for BE"
+          echo ....
+          echo 'region = "ap-southeast-1"' >> backend.tfvars
+          echo 'bucket = "final-project-year-prod-tfstate-zhixow-ap-southeast-1"' >> backend.tfvars
+          echo 'key = "terraform.tfstate"' >> backend.tfvars
+          echo 'dynamodb_table = "final-project-year-prod-tfstate"' >> backend.tfvars
+
+          echo "Envinronment for Infra"
+          echo ....
           bash generate-config-file-dev.sh
           echo "user_rds = ${{ secrets.DEV_RDS_USER }}" >> terraform.tfvars
           echo "pass_rds = ${{ secrets.DEV_RDS_PASS }}" >> terraform.tfvars

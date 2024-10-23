@@ -11,7 +11,7 @@ resource "aws_vpc" "vpc" {
 
 // create IGW
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.vpc.id  
+  vpc_id = aws_vpc.vpc.id
 
   tags = {
     Name = var.igw
@@ -116,7 +116,7 @@ resource "aws_instance" "ec2_pri" {
   iam_instance_profile   = data.aws_iam_instance_profile.ecs_instance_profile.name
   subnet_id              = aws_subnet.private_subnet[0].id
   user_data              = data.template_file.user_data_ecs.rendered
-  
+
 
   tags = {
     Name = var.name_ec2_pri

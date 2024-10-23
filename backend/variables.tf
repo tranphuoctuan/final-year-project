@@ -1,10 +1,10 @@
 variable "region" {
-  type = string  
+  type = string
 }
 variable "profile" {
-  type = string
+  type        = string
   description = "name for project"
-  
+
 }
 variable "environment" {
   type = string

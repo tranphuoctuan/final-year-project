@@ -50,6 +50,10 @@ jobs:
       - name: Run terraform plan for BE
         run: cd backend && make plan
 
+      - name: Run terraform apply for BE
+        run: cd backend && make apply
+
+
       - name: Run terraform init for Infra
         run: make init
       - name: Run terraform plan for Infra

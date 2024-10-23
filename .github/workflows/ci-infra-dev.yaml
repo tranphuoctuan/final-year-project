@@ -39,13 +39,18 @@ jobs:
       - name: check assume role
         run: aws sts get-caller-identity
 
-      - name: Run terraform init for backend
+      - name: Run terraform init for BE
         run: |
           bash generate-config-file-dev.sh
           echo "user_rds = ${{ secrets.DEV_RDS_USER }}" >> config/terraform-prod.tfvars
           echo "pass_rds = ${{ secrets.DEV_RDS_PASS }}" >> config/terraform-prod.tfvars
           echo "db_rds = ${{ secrets.DEV_RDS_TABLE }}" >> config/terraform-prod.tfvars
-          make init
+          cd backend && make init
 
-      - name: Run terraform plan for infra
-        run: make plan
+      - name: Run terraform plan for BE
+        run: cd backend && make plan
+
+      - name: Run terraform init for Infra
+        run: make init
+      - name: Run terraform plan for Infra
+        run: make plan 

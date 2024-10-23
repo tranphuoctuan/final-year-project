@@ -35,5 +35,5 @@ _purge:
 	rm -f .terraform/*.tfstate *.tfvars
 
 _config:
-	cp config/terraform-$(Env).tfvars terraform.tfvars
+	# cp config/terraform-$(Env).tfvars terraform.tfvars
 	cp config/backend-$(Env).tfvars backend.tfvars

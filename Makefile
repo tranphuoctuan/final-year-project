@@ -32,7 +32,7 @@ destroy:
 .PHONY: _purge _config
 
 _purge:
-	echo "purge step"
+	rm -f .terraform/*.tfstate *.tfvars
 
 _config:
 	cp config/terraform-$(Env).tfvars terraform.tfvars

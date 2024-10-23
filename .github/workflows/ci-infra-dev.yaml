@@ -51,7 +51,7 @@ jobs:
         run: cd backend && make plan
 
       - name: Run terraform apply for BE
-        run: cd backend && make apply -auto-approve
+        run: cd backend && terraform apply -auto-approve
 
 
       - name: Run terraform init for Infra

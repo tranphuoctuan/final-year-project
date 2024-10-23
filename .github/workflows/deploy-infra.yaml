@@ -48,5 +48,5 @@ jobs:
           echo 'pass_rds = ${{ secrets.DEV_RDS_PASS }}' >> terraform.tfvars
           echo 'db_rds = ${{ secrets.DEV_RDS_TABLE }}'>> terraform.tfvars
           terraform init -backend-config=backend.tfvars
-      - name: Run terraform plan for Infra
-        run:  make apply
+      - name: Run terraform apply for Infra resource
+        run:  terraform apply -auto-approve

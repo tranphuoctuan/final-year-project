@@ -6,7 +6,7 @@ mkdir -p config
 touch config/terraform-prod.tfvars 
 
 
-echo 'profile = final-project-year"' >> config/terraform-prod.tfvars
+echo 'profile = "final-project-year"' >> config/terraform-prod.tfvars
 echo 'environment = "prod"' >> config/terraform-prod.tfvars
 echo 'region = "ap-southeast-1"' >> config/terraform-prod.tfvars
 echo 'type_ec2_nat = "t3.nano"' >> config/terraform-prod.tfvars

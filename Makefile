@@ -15,7 +15,6 @@ init:
 	terraform init -backend-config=backend.tfvars
 
 validate:
-	tflint
 	terraform validate
 	terraform fmt --recursive
 

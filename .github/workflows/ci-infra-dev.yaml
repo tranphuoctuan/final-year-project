@@ -1,7 +1,7 @@
-name: deploy-infra-dev
+name: ci-infra-dev
 
 on:
-  push:
+  pull_request:
     branches:
       - main
     paths:
@@ -49,4 +49,4 @@ jobs:
           echo 'db_rds = ${{ secrets.DEV_RDS_TABLE }}'>> terraform.tfvars
           terraform init -backend-config=backend.tfvars
       - name: Run terraform plan for Infra
-        run:  make apply
+        run:  terraform plan

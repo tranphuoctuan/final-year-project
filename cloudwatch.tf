@@ -62,7 +62,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_nat" {
   actions_enabled     = "true"
   alarm_actions       = [data.aws_sns_topic.sns.arn]
   dimensions = {
-      InstanceId = aws_instance.ec2_pub.id
+    InstanceId = aws_instance.ec2_pub.id
   }
 }
 
@@ -80,7 +80,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_ecs" {
   actions_enabled     = "true"
   alarm_actions       = [data.aws_sns_topic.sns.arn]
   dimensions = {
-      InstanceId = aws_instance.ec2_pri.id
+    InstanceId = aws_instance.ec2_pri.id
   }
 }
 
@@ -98,6 +98,6 @@ resource "aws_cloudwatch_metric_alarm" "high_mem_ec2_ecs" {
   actions_enabled     = "true"
   alarm_actions       = [data.aws_sns_topic.sns.arn]
   dimensions = {
-      InstanceId = aws_instance.ec2_pri.id
+    InstanceId = aws_instance.ec2_pri.id
   }
 }

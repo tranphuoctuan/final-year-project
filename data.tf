@@ -22,7 +22,7 @@ data "aws_iam_instance_profile" "ecs_instance_profile" {
 // data resource iam role gán cho ec2-cloudwatch
 data "aws_iam_role" "ec2_iam_cloudwatch_role" {
   name = "CloudWatch-monitoring-ec2"
-  
+
 }
 // data resource iam_role_task_difinition
 data "aws_iam_role" "role_ecs" {
@@ -98,5 +98,5 @@ data "aws_ami" "ecs" {
 }
 
 data "template_file" "user_data_ecs" {
-  template = file("${path.module}/templates/userdata-ecs.sh.tpl") 
+  template = file("${path.module}/templates/userdata-ecs.sh.tpl")
 }

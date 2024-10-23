@@ -1,8 +1,18 @@
 #!bin/sh
 
 # Create terraform.tfvars file
+touch backend.tfvars
 touch terraform.tfvars 
 
+
+## config file environment for BE init resource
+echo 'region = "ap-southeast-1"' >> backend.tfvars
+echo 'bucket = "final-project-year-prod-tfstate-zhixow-ap-southeast-1"' >> backend.tfvars
+echo 'key = "terraform.tfstate"' >> backend.tfvars
+echo 'dynamodb_table = "final-project-year-prod-tfstate"' >> backend.tfvars
+
+
+## config file environment for Infra init resource
 echo 'profile = "final-project-year"' >> terraform.tfvars
 echo 'environment = "prod"' >> terraform.tfvars
 echo 'region = "ap-southeast-1"' >> terraform.tfvars

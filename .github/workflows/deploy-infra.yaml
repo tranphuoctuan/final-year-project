@@ -22,7 +22,7 @@ env:
   REGION: ap-southeast-1
 
 jobs:
-  ci-infra-dev:
+  deploy-infra-dev:
     runs-on: ubuntu-latest
     environment: dev
 

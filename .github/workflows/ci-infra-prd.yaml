@@ -3,6 +3,7 @@ name: ci-infra-prd
 on:
   push:
     branches:
+      - main
       - realease/**
     paths:
       - .github/workflows/ci-infra-prd.yaml
@@ -22,7 +23,7 @@ env:
   REGION: ap-southeast-1
 
 jobs:
-  ci-infra-dev:
+  ci-infra-prd:
     runs-on: ubuntu-latest
     environment: prd
 

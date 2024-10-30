@@ -57,7 +57,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_nat" {
   namespace           = "AWS/EC2"
   period              = 60
   statistic           = "Average"
-  threshold           = 70
+  threshold           = 80
   alarm_description   = "alarm for high cpu ec2 nat"
   actions_enabled     = "true"
   alarm_actions       = [data.aws_sns_topic.sns.arn]
@@ -76,7 +76,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_ecs" {
   namespace           = "AWS/EC2"
   period              = 60
   statistic           = "Average"
-  threshold           = 70
+  threshold           = 80
   alarm_description   = "alarm for high cpu ec2 ecs"
   actions_enabled     = "true"
   alarm_actions       = [data.aws_sns_topic.sns.arn]
@@ -85,7 +85,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_ecs" {
   }
 }
 
-// Create alarm for high-disk-ec2-ecs
+// Create alarm for high-memory-ec2-ecs
 resource "aws_cloudwatch_metric_alarm" "high_mem_ec2_ecs" {
   alarm_name          = "/final-lab/ec2-ecs/high-mem"
   comparison_operator = "GreaterThanOrEqualToThreshold"
@@ -94,11 +94,33 @@ resource "aws_cloudwatch_metric_alarm" "high_mem_ec2_ecs" {
   namespace           = "AWS/CWAgent"
   period              = 60
   statistic           = "Average"
-  threshold           = 70
+  threshold           = 80
   alarm_description   = "alarm for high memory ec2 ecs"
   actions_enabled     = "true"
   alarm_actions       = [data.aws_sns_topic.sns.arn]
   dimensions = {
       InstanceId = aws_instance.ec2_pri.id
   }
+<<<<<<< Updated upstream
 }
+=======
+}
+
+// Create alarm for high memory ec2-nat-bastion-host
+resource "aws_cloudwatch_metric_alarm" "high_mem_ec2_nat" {
+  alarm_name = "/blog-wordpress/ec2-nat/high-memory"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods = 1
+  metric_name = "disk_used_percent"
+  namespace           = "AWS/CWAgent"
+  period              = 60
+  statistic           = "Average"
+  threshold           = 80
+  alarm_description   = "alarm for high memory ec2 nat bastion host"
+  actions_enabled     = "true"
+  alarm_actions = [data.aws_sns_topic.sns.arn]
+  dimensions = {
+    InstanceId = aws_instance.ec2_pub.id
+  }
+}
+>>>>>>> Stashed changes

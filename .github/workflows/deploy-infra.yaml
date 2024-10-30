@@ -1,0 +1,52 @@
+name: deploy-infra-dev
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/ci-infra-dev.yaml
+      - docker/**
+      - config/**
+      - template/**
+      - backend/**
+      - '*.tf'
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  SERVICE: terraform-final-year
+  ENVIRONMENT: dev
+  REGION: ap-southeast-1
+
+jobs:
+  deploy-infra-dev:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.DEV_DEPLOY_ROLE }}
+          aws-region: ${{ env.REGION }}
+
+      - name: check assume role
+        run: aws sts get-caller-identity
+
+      - name: Run terraform init for Infra
+        run: |
+          echo "Envinronment for Infra and BE "
+          echo ....
+          bash generate-config-file-dev.sh
+          echo 'user_rds = ${{ secrets.DEV_RDS_USER }}' >> terraform.tfvars
+          echo 'pass_rds = ${{ secrets.DEV_RDS_PASS }}' >> terraform.tfvars
+          echo 'db_rds = ${{ secrets.DEV_RDS_TABLE }}'>> terraform.tfvars
+          terraform init -backend-config=backend.tfvars
+      - name: Run terraform apply for Infra resource
+        run:  terraform apply -auto-approve

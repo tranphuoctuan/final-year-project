@@ -27,7 +27,7 @@ resource "aws_subnet" "public_subnet" {
   availability_zone       = element(var.zone_pub, count.index)
 
   tags = {
-    Name = "${var.name_pub[count.index]}-final_lab"
+    Name = "${var.name_pub[count.index]}-final-year-project"
   }
 }
 
@@ -38,7 +38,7 @@ resource "aws_subnet" "private_subnet" {
   cidr_block        = var.sub_pri_cidr[count.index]
   availability_zone = element(var.zone_pri, count.index)
   tags = {
-    Name = "${var.name_pri[count.index]}-final_lab"
+    Name = "${var.name_pri[count.index]}-final-year-project"
   }
 }
 
@@ -52,7 +52,7 @@ resource "aws_route_table" "rtb_public" {
   }
 
   tags = {
-    Name = "Rtb_public_subnet_final_lab"
+    Name = "rtb-public-subnet-final-year-project"
   }
 }
 
@@ -96,7 +96,7 @@ resource "aws_route_table" "rtb_private" {
   }
 
   tags = {
-    Name = "Rtb_private_subnet_final_lab"
+    Name = "Rtb-private-subnet-final-year-project"
   }
 }
 
@@ -116,7 +116,7 @@ resource "aws_instance" "ec2_pri" {
   iam_instance_profile   = data.aws_iam_instance_profile.ecs_instance_profile.name
   subnet_id              = aws_subnet.private_subnet[0].id
   user_data              = data.template_file.user_data_ecs.rendered
-  
+
 
   tags = {
     Name = var.name_ec2_pri

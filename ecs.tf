@@ -13,6 +13,7 @@ resource "aws_cloudwatch_log_group" "log_service_php" {
 
 }
 
+
 // create task_difinition_wordpress
 resource "aws_ecs_task_definition" "task_wp" {
   family                   = "task_wp"
@@ -31,7 +32,7 @@ resource "aws_ecs_task_definition" "task_wp" {
         [
         {
             "name": "wordpress",
-            "image": "public.ecr.aws/bitnami/wordpress:latest",
+            "image": "${var.image_wordpress}",
             "cpu": 0,
             "portMappings": [
                 {
@@ -76,11 +77,8 @@ resource "aws_ecs_task_definition" "task_wp" {
             ]
         }
     ]
-
-
     TASK_DEFINITION
 }
-
 
 /// create task_definition_phpmyadmin
 // create task_difinition_wordpress
@@ -100,7 +98,7 @@ resource "aws_ecs_task_definition" "task_phpmyadmin" {
         [
         {
     "name": "phpmyadmin",
-    "image": "public.ecr.aws/bitnami/phpmyadmin:5.2.1",
+    "image": "${var.image_phpmyadmin}",
     "cpu": 0,
     "portMappings": [
         {
@@ -122,22 +120,20 @@ resource "aws_ecs_task_definition" "task_phpmyadmin" {
             },
             "environment": [
        {
-                  "name": "DATABASE_PASSWORD",
-                   "value": "${aws_db_instance.rds.password}"
-                  },
-                  {
-                  "name": "DATABASE_USER",
-                  "value": "${aws_db_instance.rds.username}"
-                 },
+              "name": "DATABASE_PASSWORD",
+                "value": "${aws_db_instance.rds.password}"
+              },
+              {
+              "name": "DATABASE_USER",
+              "value": "${aws_db_instance.rds.username}"
+              },
         {
-                  "name": "DATABASE_HOST",
-                  "value": "${aws_db_instance.rds.address}"
+              "name": "DATABASE_HOST",
+              "value": "${aws_db_instance.rds.address}"
         }
-    ]
+      ]
     }
 ]
-
-    
     TASK_DEFINITION
 }
 
@@ -157,7 +153,6 @@ resource "aws_ecs_service" "ser_php" {
   launch_type     = "EC2"
   task_definition = aws_ecs_task_definition.task_phpmyadmin.arn
   desired_count   = 1
-
 }
 
 

@@ -22,7 +22,7 @@ data "aws_iam_instance_profile" "ecs_instance_profile" {
 // data resource iam role gán cho ec2-cloudwatch
 data "aws_iam_role" "ec2_iam_cloudwatch_role" {
   name = "CloudWatch-monitoring-ec2"
-  
+
 }
 // data resource iam_role_task_difinition
 data "aws_iam_role" "role_ecs" {
@@ -31,13 +31,13 @@ data "aws_iam_role" "role_ecs" {
 
 // data resource ACM
 data "aws_acm_certificate" "acm" {
-  domain   = "final-lab.tuantranlee.online"
+  domain   = "blog.tuantranlee.shop"
   statuses = ["ISSUED"]
 }
 
 // data resource route53_hosted_zone
 data "aws_route53_zone" "hosted_zone" {
-  name         = "tuantranlee.online"
+  name         = "tuantranlee.shop"
   private_zone = false
 
 }
@@ -98,5 +98,5 @@ data "aws_ami" "ecs" {
 }
 
 data "template_file" "user_data_ecs" {
-  template = file("${path.module}/templates/userdata-ecs.sh.tpl") 
+  template = file("${path.module}/templates/userdata-ecs.sh.tpl")
 }

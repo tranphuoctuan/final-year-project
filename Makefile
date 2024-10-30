@@ -15,7 +15,6 @@ init:
 	terraform init -backend-config=backend.tfvars
 
 validate:
-	tflint
 	terraform validate
 	terraform fmt --recursive
 
@@ -23,7 +22,10 @@ plan:
 	terraform plan 
 
 apply:
-	terraform apply 
+	terraform apply
+
+destroy:
+	terraform destroy
 
 # Private
 .PHONY: _purge _config

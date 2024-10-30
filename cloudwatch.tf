@@ -50,7 +50,7 @@ EOF
 }
 // Create alarm for high-cpu-ec2-nat-bastion
 resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_nat" {
-  alarm_name          = "/final-lab/ec2-nat/high-cpu"
+  alarm_name          = "/blog-wordpress/ec2-nat/high-cpu"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
   metric_name         = "CPUUtilization"
@@ -62,14 +62,13 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_nat" {
   actions_enabled     = "true"
   alarm_actions       = [data.aws_sns_topic.sns.arn]
   dimensions = {
-      InstanceId = aws_instance.ec2_pub.id
+    InstanceId = aws_instance.ec2_pub.id
   }
 }
 
 // Create alarm for high-cpu-ec2-ecs
-
 resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_ecs" {
-  alarm_name          = "/final-lab/ec2-ecs/high-cpu"
+  alarm_name          = "/blog-wordpress/ec2-ecs/high-cpu"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
   metric_name         = "CPUUtilization"
@@ -81,13 +80,13 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_ecs" {
   actions_enabled     = "true"
   alarm_actions       = [data.aws_sns_topic.sns.arn]
   dimensions = {
-      InstanceId = aws_instance.ec2_pri.id
+    InstanceId = aws_instance.ec2_pri.id
   }
 }
 
 // Create alarm for high-memory-ec2-ecs
 resource "aws_cloudwatch_metric_alarm" "high_mem_ec2_ecs" {
-  alarm_name          = "/final-lab/ec2-ecs/high-mem"
+  alarm_name          = "/blog-wordpress/ec2-ecs/high-mem"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
   metric_name         = "disk_used_percent"
@@ -99,11 +98,8 @@ resource "aws_cloudwatch_metric_alarm" "high_mem_ec2_ecs" {
   actions_enabled     = "true"
   alarm_actions       = [data.aws_sns_topic.sns.arn]
   dimensions = {
-      InstanceId = aws_instance.ec2_pri.id
+    InstanceId = aws_instance.ec2_pri.id
   }
-<<<<<<< Updated upstream
-}
-=======
 }
 
 // Create alarm for high memory ec2-nat-bastion-host
@@ -123,4 +119,3 @@ resource "aws_cloudwatch_metric_alarm" "high_mem_ec2_nat" {
     InstanceId = aws_instance.ec2_pub.id
   }
 }
->>>>>>> Stashed changes

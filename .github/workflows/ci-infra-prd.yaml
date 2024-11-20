@@ -12,6 +12,7 @@ on:
       - template/**
       - backend/**
       - '*.tf'
+      - '*.sh'
 
 permissions:
   id-token: write

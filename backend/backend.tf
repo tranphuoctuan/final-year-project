@@ -9,6 +9,7 @@ locals {
 }
 resource "aws_s3_bucket" "tfstate" {
   bucket = "${local.name}-tfstate-${random_string.tfstate.result}-${var.region}"
+  
 }
 resource "aws_s3_bucket_acl" "tfstate" {
   bucket     = aws_s3_bucket.tfstate.id

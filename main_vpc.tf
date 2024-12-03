@@ -86,7 +86,7 @@ resource "aws_instance" "ec2_pub" {
   }
 }
 
-// create route table for private subnet to network_interface_nat_instane
+// create route table for private subnet to network_interface_nat_instance
 resource "aws_route_table" "rtb_private" {
   vpc_id = aws_vpc.vpc.id
 
@@ -107,25 +107,24 @@ resource "aws_route_table_association" "private_ass" {
   route_table_id = aws_route_table.rtb_private.id
 }
 
-// create ec2_private
-resource "aws_instance" "ec2_pri" {
-  vpc_security_group_ids = [aws_security_group.sg_ec2_pri.id]
-  ami                    = data.aws_ami.ecs.id
-  instance_type          = var.type_ec2_ecs
-  key_name               = data.aws_key_pair.ssh_my_keypair.key_name
-  iam_instance_profile   = data.aws_iam_instance_profile.ecs_instance_profile.name
-  subnet_id              = aws_subnet.private_subnet[0].id
-  user_data              = data.template_file.user_data_ecs.rendered
+# // create ec2_private
+# resource "aws_instance" "ec2_pri" {
+#   vpc_security_group_ids = [aws_security_group.sg_ec2_pri.id]
+#   ami                    = data.aws_ami.ecs.id
+#   instance_type          = var.type_ec2_ecs
+#   key_name               = data.aws_key_pair.ssh_my_keypair.key_name
+#   iam_instance_profile   = data.aws_iam_instance_profile.ecs_instance_profile.name
+#   subnet_id              = aws_subnet.private_subnet[0].id
+#   user_data              = data.template_file.user_data_ecs.rendered
 
+#   tags = {
+#     Name = var.name_ec2_pri
+#   }
 
-  tags = {
-    Name = var.name_ec2_pri
-  }
-
-  lifecycle {
-    ignore_changes = [
-      ami
-    ]
-  }
-}
+#   lifecycle {
+#     ignore_changes = [
+#       ami
+#     ]
+#   }
+# }
 

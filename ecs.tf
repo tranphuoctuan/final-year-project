@@ -13,21 +13,59 @@ resource "aws_cloudwatch_log_group" "log_service_php" {
 
 }
 
+resource "aws_security_group" "sg_ecs_fargate" {
+  name        = "sg_ecs_private_subnet"
+  description = "allows ssh and ICMP from sg_public"
+  vpc_id      = aws_vpc.vpc.id
+  tags = {
+    Name = "SG_Private_subnet"
+  }
+
+  ingress {
+    from_port       = -1
+    to_port         = -1
+    protocol        = "icmp"
+    security_groups = [aws_security_group.sg_public.id]
+  }
+
+  # ingress {
+  #   from_port = 22
+  #   to_port   = 22
+  #   protocol  = "tcp"
+  #   # cidr_blocks = [data.aws_ec2_managed_prefix_list.my_list_ip]
+  #   security_groups = [aws_security_group.sg_public.id]
+  # }
+
+  ingress {
+    from_port       = 80
+    to_port         = 444
+    protocol        = "TCP"
+    security_groups = [aws_security_group.sg_alb.id]
+
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+}
 
 // create task_difinition_wordpress
 resource "aws_ecs_task_definition" "task_wp" {
   family                   = "task_wp"
-  requires_compatibilities = ["EC2"]
-  network_mode             = "bridge"
-  cpu                      = 512
-  memory                   = 1024
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = 256
+  memory                   = 512
   task_role_arn            = data.aws_iam_role.role_ecs.arn
   execution_role_arn       = data.aws_iam_role.role_ecs.arn
   runtime_platform {
     operating_system_family = "LINUX"
     cpu_architecture        = "X86_64"
   }
-
   container_definitions = <<TASK_DEFINITION
         [
         {
@@ -37,8 +75,8 @@ resource "aws_ecs_task_definition" "task_wp" {
             "portMappings": [
                 {
                     "name": "wordpress-8080-tcp",
-                    "containerPort": 8080,
-                    "hostPort": 80,
+                    "containerPort": 80,
+                    "hostPort":80,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 }
@@ -81,13 +119,12 @@ resource "aws_ecs_task_definition" "task_wp" {
 }
 
 /// create task_definition_phpmyadmin
-// create task_difinition_wordpress
 resource "aws_ecs_task_definition" "task_phpmyadmin" {
   family                   = "task_php"
-  requires_compatibilities = ["EC2"]
-  network_mode             = "bridge"
-  cpu                      = 512
-  memory                   = 1024
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = 256
+  memory                   = 512
   task_role_arn            = data.aws_iam_role.role_ecs.arn
   execution_role_arn       = data.aws_iam_role.role_ecs.arn
   runtime_platform {
@@ -95,16 +132,16 @@ resource "aws_ecs_task_definition" "task_phpmyadmin" {
     cpu_architecture        = "X86_64"
   }
   container_definitions = <<TASK_DEFINITION
-        [
-        {
+    [
+    {
     "name": "phpmyadmin",
     "image": "${var.image_phpmyadmin}",
     "cpu": 0,
     "portMappings": [
         {
             "name": "phpmyadmin-8081-tcp",
-            "containerPort": 8080,
-            "hostPort": 81,
+            "containerPort": 81,
+            "hostPort":81,
             "protocol": "tcp",
             "appProtocol": "http"
         }
@@ -137,22 +174,50 @@ resource "aws_ecs_task_definition" "task_phpmyadmin" {
     TASK_DEFINITION
 }
 
-// create ecs_services
-// service for wordpress
+// create ecs_services for wordpress
 resource "aws_ecs_service" "ser_wp" {
   name            = "service_wp"
   cluster         = aws_ecs_cluster.cluster.name
-  launch_type     = "EC2"
+  launch_type     = "FARGATE"
   task_definition = aws_ecs_task_definition.task_wp.arn
   desired_count   = 1
+  network_configuration {
+    subnets         = [aws_subnet.private_subnet[0].id]
+    security_groups = [aws_security_group.sg_ecs_fargate.id]
+    assign_public_ip = false
+  }
+  enable_execute_command = true
+  load_balancer {
+    target_group_arn = aws_lb_target_group.tg_wp.arn
+    container_name   = "wordpress"
+    container_port   = 80
+  }
 }
 // service for phpmyadmin
 resource "aws_ecs_service" "ser_php" {
   name            = "service_phpmyadmin"
   cluster         = aws_ecs_cluster.cluster.name
-  launch_type     = "EC2"
+  launch_type     = "FARGATE"
   task_definition = aws_ecs_task_definition.task_phpmyadmin.arn
   desired_count   = 1
+
+  network_configuration {
+    subnets         = [aws_subnet.private_subnet[0].id]
+    security_groups = [aws_security_group.sg_ecs_fargate.id]
+    assign_public_ip = false
+  }
+  enable_execute_command = true
+  load_balancer {
+    target_group_arn = aws_lb_target_group.tg_php.arn
+    container_name   = "phpmyadmin"
+    container_port   = 81
+
+  }
+  lifecycle {
+    ignore_changes = [
+      task_definition
+    ]
+  }
 }
 
 

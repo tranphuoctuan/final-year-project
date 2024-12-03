@@ -43,44 +43,44 @@ resource "aws_security_group" "sg_public" {
   }
 }
 //create security group for ec2_private
-resource "aws_security_group" "sg_ec2_pri" {
-  name        = "sg_private_subnet"
-  description = "allows ssh from sg_public"
-  vpc_id      = aws_vpc.vpc.id
-  tags = {
-    Name = "SG_Private_subnet"
-  }
+# resource "aws_security_group" "sg_ec2_pri" {
+#   name        = "sg_private_subnet"
+#   description = "allows ssh from sg_public"
+#   vpc_id      = aws_vpc.vpc.id
+#   tags = {
+#     Name = "SG_Private_subnet"
+# #   }
 
-  ingress {
-    from_port       = -1
-    to_port         = -1
-    protocol        = "icmp"
-    security_groups = [aws_security_group.sg_public.id]
-  }
+#   ingress {
+#     from_port       = -1
+#     to_port         = -1
+#     protocol        = "icmp"
+#     security_groups = [aws_security_group.sg_public.id]
+#   }
 
-  ingress {
-    from_port = 22
-    to_port   = 22
-    protocol  = "tcp"
-    # cidr_blocks = [data.aws_ec2_managed_prefix_list.my_list_ip]
-    security_groups = [aws_security_group.sg_public.id]
-  }
+#   ingress {
+#     from_port = 22
+#     to_port   = 22
+#     protocol  = "tcp"
+#     # cidr_blocks = [data.aws_ec2_managed_prefix_list.my_list_ip]
+#     security_groups = [aws_security_group.sg_public.id]
+#   }
 
-  ingress {
-    from_port       = 80
-    to_port         = 81
-    protocol        = "TCP"
-    security_groups = [aws_security_group.sg_alb.id]
-  }
+#   ingress {
+#     from_port       = 80
+#     to_port         = 81
+#     protocol        = "TCP"
+#     security_groups = [aws_security_group.sg_alb.id]
+#   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = -1
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   egress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = -1
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-}
+# }
 // create security group for rds
 resource "aws_security_group" "rds_sg" {
   vpc_id = aws_vpc.vpc.id
@@ -89,7 +89,7 @@ resource "aws_security_group" "rds_sg" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = [aws_security_group.sg_ec2_pri.id]
+    security_groups = [aws_security_group.sg_ecs_fargate.id]
   }
   egress {
     from_port   = 0
@@ -125,5 +125,4 @@ resource "aws_security_group" "sg_alb" {
     protocol    = -1
     cidr_blocks = ["0.0.0.0/0"]
   }
-
 }

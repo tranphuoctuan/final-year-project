@@ -67,40 +67,40 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_nat" {
 }
 
 // Create alarm for high-cpu-ec2-ecs
-resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_ecs" {
-  alarm_name          = "/blog-wordpress/ec2-ecs/high-cpu"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = 1
-  metric_name         = "CPUUtilization"
-  namespace           = "AWS/EC2"
-  period              = 60
-  statistic           = "Average"
-  threshold           = 80
-  alarm_description   = "alarm for high cpu ec2 ecs"
-  actions_enabled     = "true"
-  alarm_actions       = [data.aws_sns_topic.sns.arn]
-  dimensions = {
-    InstanceId = aws_instance.ec2_pri.id
-  }
-}
+# resource "aws_cloudwatch_metric_alarm" "high_cpu_ec2_ecs" {
+#   alarm_name          = "/blog-wordpress/ec2-ecs/high-cpu"
+#   comparison_operator = "GreaterThanOrEqualToThreshold"
+#   evaluation_periods  = 1
+#   metric_name         = "CPUUtilization"
+#   namespace           = "AWS/EC2"
+#   period              = 60
+#   statistic           = "Average"
+#   threshold           = 80
+#   alarm_description   = "alarm for high cpu ec2 ecs"
+#   actions_enabled     = "true"
+#   alarm_actions       = [data.aws_sns_topic.sns.arn]
+#   dimensions = {
+#     InstanceId = aws_instance.ec2_pri.id
+#   }
+# }
 
 // Create alarm for high-memory-ec2-ecs
-resource "aws_cloudwatch_metric_alarm" "high_mem_ec2_ecs" {
-  alarm_name          = "/blog-wordpress/ec2-ecs/high-mem"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = 1
-  metric_name         = "disk_used_percent"
-  namespace           = "AWS/CWAgent"
-  period              = 60
-  statistic           = "Average"
-  threshold           = 80
-  alarm_description   = "alarm for high memory ec2 ecs"
-  actions_enabled     = "true"
-  alarm_actions       = [data.aws_sns_topic.sns.arn]
-  dimensions = {
-    InstanceId = aws_instance.ec2_pri.id
-  }
-}
+# resource "aws_cloudwatch_metric_alarm" "high_mem_ec2_ecs" {
+#   alarm_name          = "/blog-wordpress/ec2-ecs/high-mem"
+#   comparison_operator = "GreaterThanOrEqualToThreshold"
+#   evaluation_periods  = 1
+#   metric_name         = "disk_used_percent"
+#   namespace           = "AWS/CWAgent"
+#   period              = 60
+#   statistic           = "Average"
+#   threshold           = 80
+#   alarm_description   = "alarm for high memory ec2 ecs"
+#   actions_enabled     = "true"
+#   alarm_actions       = [data.aws_sns_topic.sns.arn]
+#   dimensions = {
+#     InstanceId = aws_instance.ec2_pri.id
+#   }
+# }
 
 // Create alarm for high memory ec2-nat-bastion-host
 resource "aws_cloudwatch_metric_alarm" "high_mem_ec2_nat" {

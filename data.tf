@@ -6,7 +6,6 @@ data "aws_ec2_managed_prefix_list" "my_list_ip" {
   }
 }
 
-// Trích xuất khóa công khai từ EC2 public instance
 data "aws_key_pair" "ssh_my_keypair" {
   filter {
     name   = "key-name"
@@ -29,8 +28,8 @@ data "aws_iam_role" "role_ecs" {
   name = "ExecutionRole"
 }
 
-// data resource ACM
-data "aws_acm_certificate" "acm" {
+// data resource alb ACM
+data "aws_acm_certificate" "alb_acm" {
   domain   = "blog.tuantranlee.shop"
   statuses = ["ISSUED"]
 }

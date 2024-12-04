@@ -60,6 +60,11 @@ variable "name_acm" {
   description = "domain_name for ACM"
 
 }
+
+variable "arn_acm" {
+  type    = string
+  description = "arn for ACM cloudfront"
+}
 variable "key_ssh" {
   type        = string
   description = "name file key.pem ssh into ec2 "

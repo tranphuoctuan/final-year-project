@@ -74,7 +74,3 @@
 
 # }
 
-# # resource "aws_wafv2_web_acl_association" "attach_waf_to_alb" {
-# #   resource_arn = aws_cloudfront_distribution.blog_cloudfront.arn
-# #   web_acl_arn  = aws_wafv2_web_acl.waf_web_acl_rule.arn
-# # }

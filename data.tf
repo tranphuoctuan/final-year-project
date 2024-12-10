@@ -18,6 +18,11 @@ data "aws_iam_instance_profile" "ecs_instance_profile" {
   name = "ecsInstanceRole"
 }
 
+// data resource iam role asign for Ec2-bastion SSM policy
+data "aws_iam_instance_profile" "ec2_bastion_ec2_role" {
+  name = "Ec2IntergrateSsmRole"
+}
+
 // data resource iam role gán cho ec2-cloudwatch
 data "aws_iam_role" "ec2_iam_cloudwatch_role" {
   name = "CloudWatch-monitoring-ec2"

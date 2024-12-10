@@ -72,8 +72,9 @@ resource "aws_instance" "ec2_pub" {
     network_interface_id = aws_network_interface.network_interface.id
     device_index         = 0
   }
-
+  
   user_data = file("user_data_for_nat_ec2_pub")
+  iam_instance_profile = data.aws_iam_instance_profile.ec2_bastion_ec2_role.name
 
   tags = {
     Name = var.name_ec2_pub

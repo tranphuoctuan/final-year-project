@@ -49,6 +49,10 @@ sudo cat >> /opt/aws/amazon-cloudwatch-agent/bin/config.json <<EOF
 }
 EOF
 
+# Install SSM agent
+sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+sudo systemctl start amazon-ssm-agent
+
 # Start Cloudwatch agent
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:///opt/aws/amazon-cloudwatch-agent/bin/config.json -s
 sudo systemctl start amazon-cloudwatch-agent

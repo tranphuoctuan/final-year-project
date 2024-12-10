@@ -53,7 +53,7 @@ resource "aws_cloudfront_distribution" "blog_cloudfront" {
     }
   } 
 }
-// associate alb endpoit to route3_record
+// associate alb endpoint to route3_record
 resource "aws_route53_record" "record_53" {
   name    = var.record_53
   zone_id = data.aws_route53_zone.hosted_zone.id

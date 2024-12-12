@@ -166,7 +166,6 @@ resource "aws_autoscaling_group" "asg_ec2_ecs" {
 // Create policy auto scaling group with CPUUtilization target
 resource "aws_autoscaling_policy" "asg_policy" {
   name = "asg_policy_scaling_CPU"
-  cooldown = 100
   policy_type = "TargetTrackingScaling"
 
   autoscaling_group_name = aws_autoscaling_group.asg_ec2_ecs.name

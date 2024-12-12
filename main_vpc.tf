@@ -109,24 +109,71 @@ resource "aws_route_table_association" "private_ass" {
 }
 
 // create ec2_private
-resource "aws_instance" "ec2_pri" {
+# resource "aws_instance" "ec2_pri" {
+#   vpc_security_group_ids = [aws_security_group.sg_ec2_pri.id]
+#   ami                    = data.aws_ami.ecs.id
+#   instance_type          = var.type_ec2_ecs
+#   key_name               = data.aws_key_pair.ssh_my_keypair.key_name
+#   iam_instance_profile   = data.aws_iam_instance_profile.ecs_instance_profile.name
+#   subnet_id              = aws_subnet.private_subnet[0].id
+#   user_data              = data.template_file.user_data_ecs.rendered
+
+
+#   tags = {
+#     Name = var.name_ec2_pri
+#   }
+
+#   lifecycle {
+#     ignore_changes = [
+#       ami
+#     ]
+#   }
+# }
+
+// Create launch template for auto scaling group
+resource "aws_launch_template" "template_ec2_ecs" {
+  name = "launch_template_ec2_ecs"
+  description = var.name_ec2_pri
+  image_id = data.aws_ami.ecs.id
   vpc_security_group_ids = [aws_security_group.sg_ec2_pri.id]
-  ami                    = data.aws_ami.ecs.id
-  instance_type          = var.type_ec2_ecs
-  key_name               = data.aws_key_pair.ssh_my_keypair.key_name
-  iam_instance_profile   = data.aws_iam_instance_profile.ecs_instance_profile.name
-  subnet_id              = aws_subnet.private_subnet[0].id
-  user_data              = data.template_file.user_data_ecs.rendered
-
-
+  instance_type = var.type_ec2_ecs
+  user_data = base64encode(data.template_file.user_data_ecs.rendered)
   tags = {
     Name = var.name_ec2_pri
   }
-
-  lifecycle {
-    ignore_changes = [
-      ami
-    ]
+  iam_instance_profile {
+    name = data.aws_iam_instance_profile.ecs_instance_profile.name
   }
 }
 
+// Create auto scaling group
+resource "aws_autoscaling_group" "asg_ec2_ecs" {
+  target_group_arns = [aws_lb_target_group.tg_php.arn, aws_lb_target_group.tg_wp.arn]
+  name = "asg-ec2-ecs"
+  vpc_zone_identifier = [aws_subnet.private_subnet[0].id, aws_subnet.private_subnet[1].id]
+  max_size = 2
+  
+  min_size = 1
+  desired_capacity = 1
+  mixed_instances_policy {
+    launch_template {
+      launch_template_specification {
+        launch_template_id = aws_launch_template.template_ec2_ecs.id
+      }
+    }
+  }
+}
+// Create policy auto scaling group with CPUUtilization target
+resource "aws_autoscaling_policy" "asg_policy" {
+  name = "asg_policy_scaling_CPU"
+  cooldown = 100
+  policy_type = "TargetTrackingScaling"
+
+  autoscaling_group_name = aws_autoscaling_group.asg_ec2_ecs.name
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 80
+  }
+}

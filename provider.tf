@@ -12,6 +12,7 @@ terraform {
 }
 
 provider "aws" {
+  alias = "regional"
   region = var.region
 }
 

@@ -16,16 +16,16 @@ resource "aws_lb_target_group" "tg_php" {
 }
 
 // attach ec2 to target-group_wp
-resource "aws_lb_target_group_attachment" "att_wp" {
-  target_group_arn = aws_lb_target_group.tg_wp.arn
-  target_id        = aws_instance.ec2_pri.id
+# resource "aws_lb_target_group_attachment" "att_wp" {
+#   target_group_arn = aws_lb_target_group.tg_wp.arn
+#   target_id        = aws_instance.ec2_pri.id
 
-}
-// attach ec2 to target-group_php
-resource "aws_lb_target_group_attachment" "att_php" {
-  target_group_arn = aws_lb_target_group.tg_php.arn
-  target_id        = aws_instance.ec2_pri.id
-}
+# }
+# // attach ec2 to target-group_php
+# resource "aws_lb_target_group_attachment" "att_php" {
+#   target_group_arn = aws_lb_target_group.tg_php.arn
+#   target_id        = aws_instance.ec2_pri.id
+# }
 
 // create ALB
 resource "aws_lb" "alb" {

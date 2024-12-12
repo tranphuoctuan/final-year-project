@@ -3,7 +3,6 @@ name: ci-infra-prd
 on:
   push:
     branches:
-      - main
       - realease/**
     paths:
       - .github/workflows/ci-infra-prd.yaml

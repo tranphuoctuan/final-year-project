@@ -1,4 +1,4 @@
-# # Tạo IP Set chứa danh sách IP bị chặn
+# # Create ip set block ip public access to my website
 # resource "aws_wafv2_ip_set" "blocked_ip_set" {
 #   provider = aws.global
 #   name        = "blocked-ip-set"

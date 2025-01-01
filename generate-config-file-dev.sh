@@ -22,7 +22,7 @@ echo 'type_ec2_ecs = "t3.medium"' >> terraform.tfvars
 # echo "pass_rds = ${{ secrets.DEV_RDS_PASS }}" >> terraform.tfvars
 # echo "db_rds = ${{ secrets.DEV_RDS_TABLE }}" >> terraform.tfvars
 echo 'type_rds = "db.t3.micro"' >> terraform.tfvars
-echo 'name_rds = "rds-final-intern"' >> terraform.tfvars
+echo 'name_rds = "rds-final"' >> terraform.tfvars
 
 echo 'name_acm = "blog.tuantranlee.shop"' >> terraform.tfvars
 echo 'arn_acm = "arn:aws:acm:us-east-1:967779793699:certificate/0e3606a2-c12f-4b2a-9e72-019cb1aed1e8"' >> terraform.tfvars

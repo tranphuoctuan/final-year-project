@@ -18,7 +18,7 @@ echo ..................
 
 aws ssm start-session --target ${INSTANCE_ID} \
   --document-name AWS-StartPortForwardingSessionToRemoteHost \
-  --parameters "{\"portNumber\":[\"3306\"],\"localPortNumber\":[\"8081\"],\"host\":[\"$ENDPOINT_DB\"]}"
+  --parameters "{\"portNumber\":[\"3306\"],\"localPortNumber\":[\"1053\"],\"host\":[\"$ENDPOINT_DB\"]}"
 
 
 echo $ENDPOINT_DB

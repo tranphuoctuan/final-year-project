@@ -42,7 +42,6 @@ resource "aws_wafv2_web_acl" "waf_web_acl_rule" {
       rate_based_statement {
         limit              = 2000 # Limit to 2000 requests in a 5-minute period
         aggregate_key_type = "IP"
-        evaluation_window_sec = 300 
       }
     }
 
